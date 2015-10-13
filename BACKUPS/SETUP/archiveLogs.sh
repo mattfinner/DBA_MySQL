@@ -27,6 +27,6 @@ fi
 
 # If its 23:30 and yesterdays backup copied ok then purge the bin logs
 if [ $? -eq 0 ] && [ $(date '+%H%M') -gt -2329 ] && [ $(date '+%H%M') -lt 0 ]; then
-  mysql --user='matt' --password='Harewood21' -e 'PURGE BINARY LOGS BEFORE DATE(NOW()) + INTERVAL 1410 MINUTE;' -s
+  mysql --user='root' --password='Harewood21' -e 'PURGE BINARY LOGS BEFORE DATE(NOW()) + INTERVAL 1410 MINUTE;' -s
   echo "$(date '+%Y-%m-%d %H:%M:%S') - Logs purged"
 fi

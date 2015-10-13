@@ -23,3 +23,5 @@ FLUSH PRIVILEGES;"
 # Grant mysql group access to data dir
 chown -R mysql:mysql /var/lib/mysql
 find /var/lib/mysql -type d -exec chmod 770 "{}" \;
+
+# Once you done this, do a test backup and restore to make sure everything is installed
