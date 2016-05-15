@@ -2,11 +2,11 @@
 
 # RUN AS MYSQL user
 # Uncompress backup
-tar -xvzf /data/mysql/backups/FULL/2015-10-12.tar.gz -C /data/mysql/backups/FULL/ --strip-components=4
+tar -xvzf /data/mysql/backups/FULL/2015-10-14.tar.gz -C /data/mysql/backups/FULL/ --strip-components=4
 
 # Find the master binlog at the time the full backup finished
-cat /data/mysql/backups/FULL/2015-10-12_13-08-06/xtrabackup_info | grep binlog_pos
-#binlog_pos = filename 'binlog.000128', position 120
+cat /data/mysql/backups/FULL/2015-10-14_00-00-01/xtrabackup_info | grep binlog_pos
+# binlog_pos = filename 'binlog.000196', position 120
 
 
 # RUN AS ROOT user
@@ -37,7 +37,7 @@ find /data/mysql/backups/LOGS/08_10_2015 -regextype posix-extended -regex "./bin
 
 # Create a restore script from the binary logs (alternatively can pipe striaght into MySQL if required - make sure MySQL running first)
 cd /data/mysql/binlogs
-mysqlbinlog binlog.000128 binlog.000129 binlog.000130 binlog.000131 --start-position=120 > /data/mysql/backups/LOGS/logRestoreScript.sql
+mysqlbinlog binlog.00019[6-9] binlog.0002[0-1][0-9] --start-position=120 > /data/mysql/backups/LOGS/logRestoreScript.sql
 
 
 # RUN AS ROOT user
