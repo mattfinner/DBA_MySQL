@@ -2,7 +2,7 @@
 
 # RUN AS MYSQL user
 # Uncompress backup
-tar -xvzf /data/mysql/backups/FULL/2015-10-12.tar.gz -C /data/mysql/backups/FULL/ --strip-components=4
+tar -xvzf /data/mysql/backups/FULL/2015-10-14.tar.gz -C /data/mysql/backups/FULL/ --strip-components=4
 
 # Find the master binlog at the time the full backup finished
 cat /data/mysql/backups/FULL/2015-10-12_13-08-06/xtrabackup_info | grep binlog_pos
