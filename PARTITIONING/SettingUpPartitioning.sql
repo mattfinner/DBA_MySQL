@@ -47,3 +47,35 @@ SELECT * FROM INFORMATION_SCHEMA.FILES;
 
 /* CheckDB on partition */
 ALTER TABLE sakila.partitionedtable CHECK PARTITION p2013;
+
+/* Split partition */
+ALTER TABLE members
+    REORGANIZE PARTITION pAll INTO (
+        PARTITION n0 VALUES LESS THAN (1960),
+        PARTITION n1 VALUES LESS THAN (1970)
+);
+
+/* Merge partitions */
+ALTER TABLE members REORGANIZE PARTITION s0,s1 INTO (
+    PARTITION p0 VALUES LESS THAN (1970)
+);
+
+/* Stored proc to split the end partition on first of each month */
+drop procedure if exists splitActivePartition;
+
+DELIMITER $$
+create procedure splitActivePartition()
+begin
+	declare par int default to_days(curdate());
+    #declare qs varchar(5000) default '';
+    declare oldPartitionName varchar(5000);
+    declare prevDate datetime default date_add(curdate(), interval -1 month);
+
+	if dayofmonth(curdate()) = 1 then
+        set oldPartitionName = concat('p', year(prevDate), right(concat('0', month(prevDate)), 2));
+        set @qs = CONCAT('ALTER TABLE sorm_message REORGANIZE PARTITION pAll INTO (PARTITION ', oldPartitionName, ' VALUES LESS THAN (', par, '), PARTITION pAll VALUES LESS THAN MAXVALUE);');
+        select @qs;
+        prepare stmt FROM @qs;
+		execute stmt;
+	end if;
+end$$
