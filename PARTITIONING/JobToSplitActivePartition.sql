@@ -16,7 +16,7 @@ DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `splitActivePartition`()
 begin
 	declare par int default to_days(curdate());
-    #declare qs varchar(5000) default '';
+    declare qs varchar(5000) default '';
     declare oldPartitionName varchar(5000);
     declare prevDate datetime default date_add(curdate(), interval -1 month);
 
